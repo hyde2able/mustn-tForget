@@ -1,0 +1,29 @@
+{
+  "name": "mustn-tForget",
+  "version": "0.0.0",
+  "description": "テロの歴史を振り返るサイト",
+  "main": "app.js",
+  "dependencies": {
+    "datamaps": "^0.4.0",
+    "express": "4.13.3",
+    "ejs": "2.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hyde2able/mustn-tForget.git"
+  },
+  "author": "hyde2able",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hyde2able/mustn-tForget/issues"
+  },
+  "engines": {
+    "node": "*",
+    "npm": "*"
+  },
+  "homepage": "https://github.com/hyde2able/mustn-tForget"
+}
