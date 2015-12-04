@@ -1,30 +1,238 @@
 $(function() {
 
-    /* flashメッセージは300sで消す */
-    setTimeout( function() {
-    $('.flash').each( function(idx, element) {
-         setTimeout( function(){
-            $(element).fadeOut('slow');
-         }, 400 * idx);
-        });
-    }, 3000);
-
-    var e = function(str) {
-        return escape(str);
+    var e = function(s) {
+        return escape(s);
     }
 
+    /* ここで死亡者数やテロ発生件数でlevel1, 2, 3, 4, 5を相対比率で割り振る */
+    var setColor = function(countries, total, callback) {
+        var color = {};
+        countries.forEach(function(c) {
+            color[c.country_id] = {fillKey: 'level1'};
+
+            if(c.country_id == 'CAN') {
+                color[c.country_id] = {fillKey: 'level4'};
+            }
+
+        });
+        callback(countries, color);
+    };
+
+    /* milkcocoaで国データ取得 */
     var milkcocoa = new MilkCocoa('teaihrlwcgv.mlkcca.com');
+    var country = milkcocoa.dataStore('country').history();
+
+    country.size(20);
+    country.limit(200);
+    var countries = [];
+    var total = 0;
+
+    country.on('data', function(data) {
+        //console.log(data);
+        data.forEach(function(datum) {
+            var c = {
+                id: datum.id,
+                name: datum.value.name,
+                country_id: datum.value.country_id,
+                death: datum.value.death,
+                number: datum.value.number
+            };
+            total += c.death;
+            countries.push(c);
+        });
+    });
+
+    country.on('end', function() {
+        setColor(countries, total, function(countries, color) {
+            mapInit(color);
+        });
+        countries.forEach(function(c) {
+            html = ['<option value="', c.name, '" data-id="', c.id, '">', c.name, '</option>'].join('');
+            $('#country').append(html);
+        });
+    });
+    country.on('error', function(err) {
+        console.log(err);
+    });
+
+    country.run();
 
 
-    /* 地図をクリックした時に、その国のIDを取得する。それを元にその国IDのデータストアの中身を取得する。 */
+    /* jQuery Validatorのセレクトボックスはないのでメソッドを追加 */
+    $.validator.addMethod('selectCheck', function(value, element, origin) {
+        return ( origin != value );
+    }, '選択してください');
+
+    /* フォームを送信したらその内容をその国のDSにプッシュ */
+    $('#register-form').submit(function(e) {
+        /* formのバリデーション */
+        $('#register-form').validate( {
+            rules: {
+                reg_date: {
+                    required: true,
+                    date: true
+                },
+                reg_description: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 200
+                },
+                reg_death: {
+                    required: true,
+                    number: true,
+                    min: 0
+                },
+                reg_country: {
+                    selectCheck: true
+                },
+                reg_link: {
+                    url: true
+                }
+            },
+            messages: {
+                reg_date: {
+                    required: '日付を入力してください'
+                },
+                reg_description: {
+                    required: '概要を入力してください',
+                    minlength: '{0}文字以上入力してください',
+                    maxlength: '{0}文字以下におさめてください'
+                },
+                reg_death: {
+                    required: '死亡者数を入力してください',
+                    min: '{0}以上を入力してください'
+                },
+                reg_country: {
+                    selectCheck: '国を選択してください'
+                },
+                reg_link: {
+                    url: 'URLの形式ではありません'
+                }
+            },
+            errorClass: 'error',
+            errorElement: 'span'
+        });
+        if( !$("#register-form").valid() ) return false;
+
+        var date = $('#reg_date').val();
+        var date = parseInt(date.replace(/-/g, ''), 10);
+        var description = $('#reg_description').val();
+        var death = $('#reg_death').val();
+        var country = $('[name=country]').val();
+        var link = $('#reg_link').val();
+        var id = $('#country').find(':selected').attr('data-id');
+
+        var data = {
+            date: date,
+            description: description,
+            death: death,
+            country: country,
+            link: link || ''
+        };
+        if( !country ) return false;
+        
+        console.log("submited");
+        pushDS(country, data, id);
+        /* closeをクリックしてモーダルを閉じる */
+        $('.close').trigger('click');
+        e.preventDefault();
+    });
+    
+
+
+    /* 事件を追加 */
+    var pushDS = function(dname, data, id) {
+        var ds = milkcocoa.dataStore(dname);
+        var country = milkcocoa.dataStore('country');
+        /* countryのDSのテロ件数と死亡者数の合計をセットする */
+        country.get(id, function(err, datum) {
+            var set_data = {
+                death: datum.value.death + data.death,
+                number: datum.value.number + 1 
+            };
+            country.set(id, set_data);
+        });
+        ds.push(data, function(err, datum) {
+            // 成功時の処理。　追加しましたとかのメッセージでも流す？
+            console.log(datum);
+        }, function(err) {
+            // ここにエラー時の処理 
+            console.log(err);
+        });
+
+    };
+    
+    
+    /* ある国をクリックしたらその国のDSから過去の歴史を取得 */
+        /* 地図をクリックした時に、その国のIDを取得する。それを元にその国IDのデータストアの中身を取得する。 */
     var getHistory = function(country) {
-        var name = country.fillKey;
-        var ds = milkcocoa.dataStore(name).history();
-        console.log(name);
+        var dname = country.properties.name;
+
+        var ds = milkcocoa.dataStore(dname).history();
+        ds.size(20);
+        ds.limit(999);
+        var tragedy = [];        
+
+        ds.on('data', function(data) {
+            console.log(data);
+            data.forEach(function(datum) {
+                var t = {
+                    id: datum.id,
+                    date: datum.value.date,
+                    description: datum.value.description,
+                    death: datum.value.death,
+                    country: datum.value.country,
+                    link: datum.value.link
+                };
+                tragedy.push(t);
+            });
+        });
+
+        /* 全て取得が終わったらタイムラインに描画 */
+        ds.on('end', function() {
+            console.log(tragedy);
+            /* もし悲劇がその国になかったらタイムラインに何を表示するか？ */
+            if( tragedy == [] ) {
+
+                return;
+            };
+
+            /* 年代順に並び替え */
+            tragedy.sort(function(a,b) {
+                if(a.date < b.date) return -1;
+                if(a,date < b.date) return 1;
+                return 0;
+            });
+
+            tragedy.forEach(function(t) {
+                // 20151205 → 2015/12/05
+                var date = String(t.date);
+                date = date.substr(0, 4) + '/' + date.substr(4, 2) + '/' + date.substr(6, 2);
+                var html = '<div class="timeline__date">' + e(date) + ':</div>';
+                html += '<p>' + t.description + '</p>';
+                html += '<p>死者:' + e(t.death) + '</p>';
+                if( t.link ) html += '<a href="' + e(t.link) + '" target="_blank">参考</a>';
+
+                $li = $('<li>', {
+                    html: html
+                });
+
+                $li.appendTo($('section.timeline ul'));
+                //$li.fadeIn(1000);
+            });
+        });
+
+        ds.on('error', function(err) {
+            console.log(err);
+        });
+
+        ds.run();
+
+        //console.log(country);
     };  
 
 
-
+    /* マップの色を定めている */
     var fillColor = {
         'level1': '#F4CC48',
         'level2': '#EDA648',
@@ -34,49 +242,44 @@ $(function() {
         defaultFill: '#EDDC4E'
     };
 
-    var fillKey = {
-        'RUS': {fillKey: 'RUS'},
-        'PRK': {fillKey: 'PRK'},
-        'PRC': {fillKey: 'PRC'},
-        'IND': {fillKey: 'IND'},
-        'GBR': {fillKey: 'GBR'},
-        'FRA': {fillKey: 'FRA'},
-        'PAK': {fillKey: 'PAK'},
-        'USA': {fillKey: 'USA'}
+    /* mapを作成 */
+    var mapInit = function(color) {
+    	var map = new Datamap({
+            element: document.getElementById('world'),
+            scope: 'world',
+            geographyConfig: {
+                hideAntarctica: true,   /* 北極は載せない */
+                boderWidth: 1,
+                borderColor: '#FFFFFF',
+                popupOnHover: true,
+                popupTemplate: function(geography, data) {
+                    //console.log(geography);
+                    return '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong></div>';
+                },
+                actionOnClick: true,
+                clickAction: function(data) {
+                    getHistory(data);
+                },
+                highlightOnHover: true, /* ホバー時にエフェクト */
+                highlightFillColor: '#FC8D59',
+                highlightBorderColor: 'rgba(250, 15, 160, 0.2)',
+                highlightBorderWidth: 2
+            },
+            bubblesConfig: {
+                popupOnHover: true,
+                radius: null,
+                popupTemplate: function(geography, data) {
+                    return '<div class="hoverinfo"><strong>' + data.name + '</strong></div>';
+                },
+                clickAction: function(data) {
+                    getHistory(data);
+                },
+                actionOnClick: true,
+            },
+            fills: fillColor,
+            data: color
+        });
     };
-
-	var map = new Datamap({
-        element: document.getElementById('world'),
-        scope: 'world',
-        geographyConfig: {
-            hideAntarctica: true,   /* 北極は載せない */
-            boderWidth: 1,
-            borderColor: '#FFFFFF',
-            popupOnHover: true,
-            popupTemplate: function(geography, data) {
-                //console.log(geography);
-                return '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong></div>';
-            },
-            highlightOnHover: true, /* ホバー時にエフェクト */
-            highlightFillColor: '#FC8D59',
-            highlightBorderColor: 'rgba(250, 15, 160, 0.2)',
-            highlightBorderWidth: 2
-        },
-        bubblesConfig: {
-            popupOnHover: true,
-            radius: null,
-            popupTemplate: function(geography, data) {
-                return '<div class="hoverinfo"><strong>' + data.name + '</strong></div>';
-            },
-            clickAction: function(data) {
-                getHistory(data);
-            },
-            actionOnClick: true,
-        },
-        fills: fillColor,
-        data: fillKey
-    });
-
 
     // var terro = [{
     //     name: 'Joe 4',
