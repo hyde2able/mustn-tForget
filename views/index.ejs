@@ -25,7 +25,8 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
-    <script src="js/datamaps.world.min.js"></script>
+    <script src="js/datamaps.world.js"></script>
+    <script src="https://cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
     <script type="text/javascript" src="js/timeline.js"></script>
 </head>
@@ -34,7 +35,10 @@
 
 <body>
     <section class="world">
+        <br>
+        <img src="images/logo.png" style="margin: 0 auto;">
         <div id="world" style="position: relative; width: 1000px; height: 600px; margin: 0 auto;"></div>
+        <br>
     </section>
 
     <section class="timeline">
@@ -53,5 +57,22 @@
             </li>
         </ul>
     </section>
+
+    <section class="form">
+        日付:<input type="date" class="date" id="date"><br>
+        内容:<input type="text" class="description" id="description"><br>
+        死亡者数:<input type="number" class="death" class="death"><br>
+        国:
+        <select name="country" size="4">
+            <% country.forEach(function(c) { %>
+                <option value="<%= c.country_id %>" data-id="<%= c.id %>"><%= c.name %></option>
+            <% }) %>
+        </select>
+
+        <input type="submit" value="送信する">
+        <input type="reset" value="入力内容をリセットする">
+
+    </section>
+
 </body>
 </html>

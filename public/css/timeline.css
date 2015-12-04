@@ -1,112 +1,112 @@
-import url(http://fonts.googleapis.com/css?family=Open+Sans:300,700);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,700);
 body {
- background: #c5670a;
- margin: 0;
- font-family: "Open Sans", sans-serif;
- font-weight: 300;
+    background: #c5670a;
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
 }
-* {
- box-sizing: border-box;
+* { 
+    box-sizing: border-box;
 }
 .timeline {
- margin-top: 2em;
+    margin-top: 2em;
 }
 .timeline > ul {
- display: inline-block;
- position: relative;
- left: 50%;
- border-left: 1px solid #eeeeee;
- margin-top: 2.3125em;
- padding: 0;
- padding-top: 4em;
- color: #eeeeee;
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    border-left: 1px solid #eeeeee;
+    margin-top: 2.3125em;
+    padding: 0;
+    padding-top: 4em;
+    color: #eeeeee;
 }
 .timeline > ul:before, .timeline > ul:after {
- content: "";
- background: #eeeeee;
- border-radius: 100%;
- display: block;
- position: absolute;
+    content: "";
+    background: #eeeeee;
+    border-radius: 100%;
+    display: block;
+    position: absolute;
 }
 .timeline > ul:before {
- left: -1.03125em;
- top: -2.0625em;
- width: 2.0625em;
- height: 2.0625em;
- box-shadow: 0 0 0 0.25em rgba(238, 238, 238, 0.3);
+    left: -1.03125em;
+    top: -2.0625em;
+    width: 2.0625em;
+    height: 2.0625em;
+    box-shadow: 0 0 0 0.25em rgba(238, 238, 238, 0.3);
 }
 .timeline > ul:after {
- bottom: -0.6875em;
- left: -0.34375em;
- width: 0.6875em;
- height: 0.6875em;
+    bottom: -0.6875em;
+    left: -0.34375em;
+    width: 0.6875em;
+    height: 0.6875em;
 }
 .timeline li {
- position: relative;
- width: 8em;
- list-style: none;
- margin: 0 0 4em 8em;
- padding: 0;
- padding-left: 1em;
+    position: relative;
+    width: 8em;
+    list-style: none;
+    margin: 0 0 4em 8em;
+    padding: 0;
+    padding-left: 1em;
 }
 .timeline li:before, .timeline li:after {
- content: "";
- background: #eeeeee;
- display: block;
- position: absolute;
+    content: "";
+    background: #eeeeee;
+    display: block;
+    position: absolute;
 }
 .timeline li:before {
- left: -8em;
- top: 50%;
- width: 8em;
- height: 1px;
+    left: -8em;
+    top: 50%;
+    width: 8em;
+    height: 1px;
 }
 .timeline li:after {
- left: -8.21875em;
- top: 50%;
- transform: translateY(-50%);
- height: 0.4375em;
- width: 0.4375em;
- border-radius: 100%;
+    left: -8.21875em;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 0.4375em;
+    width: 0.4375em;
+    border-radius: 100%;
 }
 .timeline li p {
- margin: 0;
+    margin: 0;
 }
 .timeline__date {
- font-weight: 700;
- margin-bottom: .25em;
+    font-weight: 700;
+    margin-bottom: .25em;
 }
 .timeline li:nth-child(2n) {
- left: -17em;
- margin-left: 0;
- padding-left: 0;
- text-align: right;
+    left: -17em;
+    margin-left: 0;
+    padding-left: 0;
+    text-align: right;
 }
 .timeline li:nth-child(2n):before {
- left: 9em;
+    left: 9em;
 }
 .timeline li:nth-child(2n):after {
- left: 16.78125em;
- top: 50%;
+    left: 16.78125em;
+    top: 50%;
 }
 .timeline li:last-child {
- margin-bottom: 4em;
+    margin-bottom: 4em;
 }
 .js .timeline li p, .js .timeline li:after {
- opacity: 0;
+    opacity: 0;
 }
 .js .timeline li:before {
- width: 0;
+    width: 0;
 }
 .js .timeline .timeline--active p {
- opacity: 1;
- transition: opacity .5s .5s ease-in;
+    opacity: 1;
+    transition: opacity .5s .5s ease-in;
 }
 .js .timeline .timeline--active:before {
- width: 8em;
- transition: width 0.5s .25s ease-in;
+    width: 8em;
+    transition: width 0.5s .25s ease-in;
 }
 .js .timeline .timeline--active:after {
- opacity: 1;
- transition: opacity 0.25s ease-in;
+    opacity: 1;
+    transition: opacity 0.25s ease-in;
 }
