@@ -14,10 +14,11 @@
     
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
-    <link rel="stylesheet" type="text/css" href="css/timeline.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/timeline.css">
+
     <!--&#91;if lt IE 9&#93;>
     <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -39,32 +40,50 @@
 </head>
 
 
-
 <body>
-    <section class="world">
-        <br>
-        <img src="images/logo.png" style="margin: 0 auto;">
-        <div id="world" style="position: relative; width: 1000px; height: 600px; margin: 0 auto;"></div>
-        <br>
+    <section class="header">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <img src="images/logo.png" style="margin: 0 auto;">
+            </div>
+        </div>
     </section>
 
-    <section class="timeline">
-        <ul>
-            <li>
-                <div class="timeline__date">2008:</div>
-                <p>Graduated London Design School</p>
-            </li>
-            <li>
-                <div class="timeline__date">2010:</div>
-                <p>Art Director at Sensa Nostra</p>
-            </li>
-            <li>
-                <div class="timeline__date">2010-2013:</div>
-                <p>Freelancer in Berlin</p>
-            </li>
-        </ul>
-    </section>
+    <div class="row">
+        <div class="col-sm-12 col-md-8">
+            <section class="world">
+                <div id="world" style="position: relative; width: 100%; height: 550px;"></div>
+            </section>
+        </div>
 
+        <div class="col-sm-12 col-md-4">
+
+            <section class="timeline">
+                <h1>Timeline Concept</h1>
+                <div>
+                    <ul class="timeline">
+                        <li class="event" data-date="12:30 - 1:00pm">
+                            <h3>Registration</h3>
+                            <p>明日遊べる？さzまおsかおさもさこえあこrまおらら</p>
+                        </li>
+                        <li class="event" data-date="2:30 - 4:00pm">
+                            <h3>Opening Ceremony</h3>
+                            <p>Get ready for an exciting event, this will kick off in amazing fashion with MOP & Busta Rhymes as an opening show.</p>    
+                        </li>
+                        <li class="event" data-date="5:00 - 8:00pm">
+                            <h3>Main Event</h3>
+                            <p>This is where it all goes down. You will compete head to head with your friends and rivals. Get ready!</p>    
+                        </li>
+                        <li class="event" data-date="8:30 - 9:30pm">
+                            <h3>Closing Ceremony</h3>
+                            <p>See how is the victor and who are the losers. The big stage is where the winners bask in their own   glory.</p>    
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+    </div>
 
 
     <button type="button" class="btn btn-default btn-lg" id="button" data-toggle="modal" data-target="#form">追加する</button>
@@ -77,8 +96,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <div class="text-center" style="padding: 50px 0;">
-                        <div class="logo"><h1>追加する</h1></div>
+                    <div class="text-center" style="padding: 0; margin-top: -10px;">
                         <!-- メインのフォーム -->
                         <div class="login-form-1">
                             <form id="register-form" class="text-left" method="post">
@@ -86,22 +104,22 @@
                                 <div class="main-login-form">
                                     <div class="login-group">
                                         <div class="form-group">
-                                            <label for="reg_date">起きた日付<span class="required">*</span></label>
+                                            <label for="reg_date">起きてしまった日付<span class="required">*</span></label>
                                             <input type="date" class="form-control" id="reg_date" name="reg_date">
                                         </div>
                                         <div class="form-group">
-                                            <label for="reg_country">起きた国<span class="required">*</span></label>
+                                            <label for="reg_country">起きてしまった国<span class="required">*</span></label>
                                             <select name="country" size="4" id="country" class="form-control" data-size="3">
                                                 <option value="0" selected>選択してください</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="reg_description">概要<span class="required">*</span></label>
-                                            <textarea class="form-control" id="reg_description" name="reg_description" placeholder="できごとの内容" cols="45" row="10"></textarea>
+                                            <textarea class="form-control" id="reg_description" name="reg_description" placeholder="起きてしまった出来事のあらまし" cols="45" row="10"></textarea>
                                             <p class="help=block">※ 10 ~ 200字以内</p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="reg_death">死亡者数<span class="required">*</span></label>
+                                            <label for="reg_death">亡くなった人数<span class="required">*</span></label>
                                             <input type="number" class="form-control" id="reg_death" name="reg_death" value="0">
                                         </div>
                                         <div class="form-group">
@@ -116,13 +134,19 @@
                         </div>
                     </div>
                 </div>
+                <!--
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">x</button>
                 </div>
+                -->
             </div>
         </div>
     </div>
 
+    <section class="footer">
+            <hr>
+            <p>&copy; 2015 hyde2able ( hyde14142@gmail.com )</p>
+    </section>
 
 
 

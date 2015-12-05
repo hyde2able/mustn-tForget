@@ -6,26 +6,27 @@ $(function() {
 
     /* ここで死亡者数やテロ発生件数でlevel1, 2, 3, 4, 5を相対比率で割り振る */
     var setColor = function(countries, total, callback) {
-        var color = {};
+        var Dcolor = {};    /* 死者数による色付け */
+        var Ncolor = {};    /* 発生件数による色付け */
         countries.forEach(function(c) {
-            color[c.country_id] = {fillKey: 'level1'};
+            if( c.number > 0) Dcolor[c.country_id] = {fillKey: 'level2'};
 
             if(c.country_id == 'CAN') {
-                color[c.country_id] = {fillKey: 'level4'};
+                Dcolor[c.country_id] = {fillKey: 'level4'};
             }
 
         });
-        callback(countries, color);
+        callback(countries, Dcolor);
     };
 
     /* milkcocoaで国データ取得 */
-    var milkcocoa = new MilkCocoa('teaihrlwcgv.mlkcca.com');
+    var milkcocoa = new MilkCocoa('uniihs82zyf.mlkcca.com');
     var country = milkcocoa.dataStore('country').history();
 
     country.size(20);
     country.limit(200);
     var countries = [];
-    var total = 0;
+    var Dtotal = 0, Ntotal = 0;
 
     country.on('data', function(data) {
         //console.log(data);
@@ -35,20 +36,29 @@ $(function() {
                 name: datum.value.name,
                 country_id: datum.value.country_id,
                 death: datum.value.death,
-                number: datum.value.number
+                number: datum.value.number,
+                jName: datum.value.jName
             };
-            total += c.death;
+            Dtotal += c.death;
+            Ntotal += c.number;
             countries.push(c);
         });
     });
 
     country.on('end', function() {
-        setColor(countries, total, function(countries, color) {
+        setColor(countries, {death: Dtotal, number: Ntotal}, function(countries, color) {
             mapInit(color);
         });
+        countries.sort(function(a,b) {
+            if(a.jName < b.jName) return -1;
+            if(a.jName < b.jName) return 1;
+            return 0;
+        })
         countries.forEach(function(c) {
-            html = ['<option value="', c.name, '" data-id="', c.id, '">', c.name, '</option>'].join('');
-            $('#country').append(html);
+            if(c.jName != 'unkown'){
+                html = ['<option value="', c.name, '" data-id="', c.id, '">', c.jName, '</option>'].join('');
+                $('#country').append(html);
+            }
         });
     });
     country.on('error', function(err) {
@@ -124,17 +134,23 @@ $(function() {
 
         var data = {
             date: date,
-            description: description,
+            description: description.replace(/[\n\r]/g,""),
             death: death,
             country: country,
             link: link || ''
         };
         if( !country ) return false;
-        
+        console.log(data);
+
         console.log("submited");
         pushDS(country, data, id);
         /* closeをクリックしてモーダルを閉じる */
         $('.close').trigger('click');
+        $('#reg_description').val('');
+        $('[name=country]').val('');
+        $('#reg_link').val('');
+        $('#reg_date').val('');
+
         e.preventDefault();
     });
     
@@ -147,8 +163,8 @@ $(function() {
         /* countryのDSのテロ件数と死亡者数の合計をセットする */
         country.get(id, function(err, datum) {
             var set_data = {
-                death: datum.value.death + data.death,
-                number: datum.value.number + 1 
+                death: parseInt(datum.value.death, 10) + parseInt(data.death, 10),
+                number: parseInt(datum.value.number, 10) + 1 
             };
             country.set(id, set_data);
         });
@@ -190,34 +206,43 @@ $(function() {
 
         /* 全て取得が終わったらタイムラインに描画 */
         ds.on('end', function() {
-            console.log(tragedy);
             /* もし悲劇がその国になかったらタイムラインに何を表示するか？ */
-            if( tragedy == [] ) {
-
+            if( tragedy.length == 0 ) {
+                // $('section.timeline ul').html('<p>何も起きていません</p>');
                 return;
             };
 
             /* 年代順に並び替え */
             tragedy.sort(function(a,b) {
                 if(a.date < b.date) return -1;
-                if(a,date < b.date) return 1;
+                if(a.date > b.date) return 1;
                 return 0;
             });
+
+            $('ul.timeline').html('');
+            $('section#content h1').html('<h1>' + dname + '</h1>');
 
             tragedy.forEach(function(t) {
                 // 20151205 → 2015/12/05
                 var date = String(t.date);
                 date = date.substr(0, 4) + '/' + date.substr(4, 2) + '/' + date.substr(6, 2);
-                var html = '<div class="timeline__date">' + e(date) + ':</div>';
+                // var html = '<div class="timeline__date">' + e(date) + ':</div>';
+                // html += '<p>' + t.description + '</p>';
+                // html += '<p>死者:' + e(t.death) + '</p>';
+
+                var html = '<li class="event" data-date="' + date + '">';
                 html += '<p>' + t.description + '</p>';
-                html += '<p>死者:' + e(t.death) + '</p>';
                 if( t.link ) html += '<a href="' + e(t.link) + '" target="_blank">参考</a>';
+                html += '</li>';
 
-                $li = $('<li>', {
-                    html: html
-                });
+                // $li = $('<li>', {
+                //     html: html,
+                //     css: {display: 'none'}
+                // });
 
-                $li.appendTo($('section.timeline ul'));
+                $('ul.timeline').append(html);
+
+                //$li.appendTo($('section.timeline ul'));
                 //$li.fadeIn(1000);
             });
         });
@@ -247,10 +272,12 @@ $(function() {
     	var map = new Datamap({
             element: document.getElementById('world'),
             scope: 'world',
+            projection: 'mercator',
+            height: 500,
             geographyConfig: {
                 hideAntarctica: true,   /* 北極は載せない */
                 boderWidth: 1,
-                borderColor: '#FFFFFF',
+                borderColor: 'rgba(189, 195, 198, .5)',
                 popupOnHover: true,
                 popupTemplate: function(geography, data) {
                     //console.log(geography);

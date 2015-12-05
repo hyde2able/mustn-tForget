@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   border: 0;
+
 }
 
 body {
@@ -11,37 +12,40 @@ body {
 
 
 section.world {
-    margin-top: -20px;
-    margin-bottom: 40px;
+    margin-top: 0px;
+    margin-bottom: 0px;
     width: 100%;
-    height: 700px;
-    //background-color: rgba(12, 12, 12, .6);
-    //background: #333333 url('../images/bg3.jpg') center center / cover no-repeat fixed;
-    //background-size: cover;
-    background-color: #fff;
+    height: 600px;
+    background-color: rgba(189, 195, 198, .5);
+    padding: 30px;
+    padding-top: 50px;
+    border-radius: 10px;
+    -moz-box-shadow: inset 15px 15px 15px 15px #fff;
+    -webkit-box-shadow: inset 15px 15px 15px 15px #fff;
+    box-shadow: inset 15px 15px 15px 15px #fff;
 }
 section.world h1 {
     text-align: center;
     color: white;
 }
-
-section.timeline {
+section.timeline div{
     margin: 0;
-    padding-top: 100px;
+    padding-top: 0px;
     width: 100%;
-    height: 100%;
-    background: #c5670a;
-    //background-color: rgba(38, 72, 106, .6);
+    height: 530px;
+    overflow: scroll;
+    border-top: 2px dotted #ccc;
+}
+section.timeline h1 {
+    color: black;
 }
 
 
 #button {
     position: fixed;
     right: 50px;
-    top: 100px;
+    top: 50px;
 }
-
-
 
 
 
@@ -50,17 +54,17 @@ section.timeline {
 
 
 
-footer {
+.footer {
 	clear: both;
-	margin-top: 10px;
+    background-color: #fff;
 }
-footer hr {
+.footer hr {
     border: 0;
     height: 0;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
-footer p {
+.footer p {
 	font-family: Georgia,Serif;
 	text-align: center;
 }
