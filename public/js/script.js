@@ -1,23 +1,52 @@
 $(function() {
 
+     $(".chosen-select").chosen({width: "95%"}); 
+
     var e = function(s) {
         return escape(s);
     }
 
+    var Dcolor = {}     /* 死者数による色付け */
+    ,   Ncolor = {};    /* 発生件数による色付け */
     /* ここで死亡者数やテロ発生件数でlevel1, 2, 3, 4, 5を相対比率で割り振る */
     var setColor = function(countries, total, callback) {
-        var Dcolor = {};    /* 死者数による色付け */
-        var Ncolor = {};    /* 発生件数による色付け */
+
         countries.forEach(function(c) {
-            if( c.number > 0) Dcolor[c.country_id] = {fillKey: 'level2'};
+            if(c.country_id != '-99') {
 
-            if(c.country_id == 'CAN') {
-                Dcolor[c.country_id] = {fillKey: 'level4'};
+                Dcolor[c.country_id] = {fillKey: 'level1'};
+                Ncolor[c.country_id] = {fillKey: 'level1'};
+                if( c.number > 0) Dcolor[c.country_id] = {fillKey: 'level2'};
+                if(c.country_id == 'CAN') {
+                    Dcolor[c.country_id] = {fillKey: 'level4'};
+                    Ncolor[c.country_id] = {fillKey: 'level5'};
+                }
             }
-
         });
-        callback(countries, Dcolor);
+        callback(Dcolor);
     };
+
+
+
+    /* switch */
+    $('div#switch button').click(function() {
+        var data = $(this).attr('data')
+        ,   color;
+
+        $(this).addClass('checked');
+        if( data == 'death' ) {
+            $(this).next('button').removeClass('checked');
+            color = Dcolor;
+        } else {
+            $(this).prev('button').removeClass('checked');
+            color = Ncolor;
+        }
+
+        console.log(color);
+        map.updateChoropleth(color);
+        return;
+    });
+
 
     /* milkcocoaで国データ取得 */
     var milkcocoa = new MilkCocoa('uniihs82zyf.mlkcca.com');
@@ -46,21 +75,11 @@ $(function() {
     });
 
     country.on('end', function() {
-        setColor(countries, {death: Dtotal, number: Ntotal}, function(countries, color) {
+        setColor(countries, {death: Dtotal, number: Ntotal}, function(color) {
             mapInit(color);
         });
-        countries.sort(function(a,b) {
-            if(a.jName < b.jName) return -1;
-            if(a.jName < b.jName) return 1;
-            return 0;
-        })
-        countries.forEach(function(c) {
-            if(c.jName != 'unkown'){
-                html = ['<option value="', c.name, '" data-id="', c.id, '">', c.jName, '</option>'].join('');
-                $('#country').append(html);
-            }
-        });
     });
+
     country.on('error', function(err) {
         console.log(err);
     });
@@ -268,8 +287,9 @@ $(function() {
     };
 
     /* mapを作成 */
+    var map;
     var mapInit = function(color) {
-    	var map = new Datamap({
+    	map = new Datamap({
             element: document.getElementById('world'),
             scope: 'world',
             projection: 'mercator',

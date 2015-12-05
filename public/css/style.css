@@ -24,6 +24,9 @@ section.world {
     -webkit-box-shadow: inset 15px 15px 15px 15px #fff;
     box-shadow: inset 15px 15px 15px 15px #fff;
 }
+section.world #switch .checked {
+    background-color: #aaa;
+}
 section.world h1 {
     text-align: center;
     color: white;
@@ -44,7 +47,7 @@ section.timeline h1 {
 #button {
     position: fixed;
     right: 50px;
-    top: 50px;
+    top: 30px;
 }
 
 
