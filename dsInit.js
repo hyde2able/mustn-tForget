@@ -2185,7 +2185,6 @@ jName = {
     LSO: {name: 'レソト', region: 'SouthAfrica', lat: -29.314174, lng: 27.494136 },
     LBN: {name: 'レバノン', region: 'MiddleEast', lat: 33.854721, lng: 35.86228499999993 },
     RUS: {name: 'ロシア', region: 'Russia', lat: 61.52401, lng: 105.31875600000001 },
-
     ATA: {name: '南極', region: 'land', lat: -82.862752, lng: 135},
     ATF: {name: '南方・南極地域', region: 'land', lat: -82.862752, lng: 135},
     COD: {name: 'コンゴ民主共和國', region: 'CentralAfrica', lat: 35.700347, lng: 139.781547},
@@ -2202,7 +2201,6 @@ jName = {
     NCL: {name: 'ニューカレドニア', region: 'Oceania', lat: -20.904305, lng: 165.618042},
     MNE: {name: 'モンテネグロ', region: 'EastEurope', lat: 42.708678, lng: 19.37439},
     '-99': {name: 'unkown', region: 'unkown'}
-
 };
 
 var MilkCocoa = require('milkcocoa');
@@ -2222,13 +2220,13 @@ x.objects.world.geometries.forEach(function(geo) {
             death: 0,
             number: 0
         };
+        //ds.push(x);
     }
-
-    //ds.push(x);
 
     console.log(x);
 
 });
+console.log('done');
 
 
 
