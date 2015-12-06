@@ -13,20 +13,33 @@ $(function() {
 
         countries.forEach(function(c) {
             if(c.country_id != '-99') {
-
-                Dcolor[c.country_id] = {fillKey: 'level1'};
-                Ncolor[c.country_id] = {fillKey: 'level1'};
-                if( c.number > 0) Dcolor[c.country_id] = {fillKey: 'level2'};
-                if(c.country_id == 'CAN') {
-                    Dcolor[c.country_id] = {fillKey: 'level4'};
-                    Ncolor[c.country_id] = {fillKey: 'level5'};
-                }
+                Dcolor[c.country_id] = { fillKey: retLevel(c.death) };
+                Ncolor[c.country_id] = { fillKey: retLevel(c.number, 'number') };
             }
         });
         callback(Dcolor);
     };
 
-
+    var Dlevel = [10, 20, 30, 40, 50];
+    var Nlevel = [1, 2, 3, 4, 5];
+    /* レベルを返す */
+    var retLevel = function(num, type) {
+        var level = Dlevel;
+        if(type == 'number') level = Nlevel;
+        if( num < level[0] ) {
+            return 'level1';
+        } else if ( num < level[1] ) {
+            return 'level2';
+        } else if ( num < level[2] ) {
+            return 'level3';
+        } else if ( num < level[3] ) {
+            return 'level4';
+        } else if ( num < level[4] ) {
+            return 'level5';
+        } else {
+            return 'level5';
+        }
+    }
 
     /* switch */
     $('div#switch button').click(function() {
@@ -43,9 +56,11 @@ $(function() {
         }
 
         console.log(color);
+        console.log(data);
         map.updateChoropleth(color);
         return;
     });
+
 
 
     /* milkcocoaで国データ取得 */
@@ -170,6 +185,7 @@ $(function() {
         $('#reg_link').val('');
         $('#reg_date').val('');
 
+        alert('登録しました');
         e.preventDefault();
     });
     
@@ -199,8 +215,9 @@ $(function() {
     
     
     /* ある国をクリックしたらその国のDSから過去の歴史を取得 */
-        /* 地図をクリックした時に、その国のIDを取得する。それを元にその国IDのデータストアの中身を取得する。 */
+    /* 地図をクリックした時に、その国のIDを取得する。それを元にその国IDのデータストアの中身を取得する。 */
     var getHistory = function(country) {
+        //console.log(country);
         var dname = country.properties.name;
 
         var ds = milkcocoa.dataStore(dname).history();
@@ -209,7 +226,7 @@ $(function() {
         var tragedy = [];        
 
         ds.on('data', function(data) {
-            console.log(data);
+            //console.log(data);
             data.forEach(function(datum) {
                 var t = {
                     id: datum.id,
@@ -225,6 +242,8 @@ $(function() {
 
         /* 全て取得が終わったらタイムラインに描画 */
         ds.on('end', function() {
+            $('section.timeline h1').text( jName[country.id]['name'] );
+
             /* もし悲劇がその国になかったらタイムラインに何を表示するか？ */
             if( tragedy.length == 0 ) {
                 // $('section.timeline ul').html('<p>何も起きていません</p>');
@@ -239,32 +258,28 @@ $(function() {
             });
 
             $('ul.timeline').html('');
-            $('section#content h1').html('<h1>' + dname + '</h1>');
 
             tragedy.forEach(function(t) {
                 // 20151205 → 2015/12/05
                 var date = String(t.date);
                 date = date.substr(0, 4) + '/' + date.substr(4, 2) + '/' + date.substr(6, 2);
-                // var html = '<div class="timeline__date">' + e(date) + ':</div>';
-                // html += '<p>' + t.description + '</p>';
-                // html += '<p>死者:' + e(t.death) + '</p>';
 
-                var html = '<li class="event" data-date="' + date + '">';
-                html += '<p>' + t.description + '</p>';
-                if( t.link ) html += '<a href="' + e(t.link) + '" target="_blank">参考</a>';
-                html += '</li>';
+                var html = '<p>' + t.description + '</p>';
+                if( t.link ) html += '<a href="' + t.link + '" target="_blank">参考</a>';
 
-                // $li = $('<li>', {
-                //     html: html,
-                //     css: {display: 'none'}
-                // });
+                $li = $('<li>', {
+                    html: html,
+                    addClass: 'event timeline--active',
+                    css: {display: 'none'}
+                });
+                $li.attr('data-date', date);
 
-                $('ul.timeline').append(html);
-
-                //$li.appendTo($('section.timeline ul'));
-                //$li.fadeIn(1000);
+                $li.appendTo( $('section.timeline ul') );
+                $li.fadeIn(1000);
             });
         });
+
+
 
         ds.on('error', function(err) {
             console.log(err);
@@ -275,6 +290,11 @@ $(function() {
         //console.log(country);
     };  
 
+    /* urlか判定 */
+    function isUrl(url) {
+        var reg = new RegExp("^https?:\\/\\/[\\w_\\-\\.]+[^\\.]\\.([a-z]{2,2}\\.[a-z]{2,2}|[a-z]{2,3})\\/?$");
+        return url.match(reg);
+    }
 
     /* マップの色を定めている */
     var fillColor = {
@@ -301,7 +321,8 @@ $(function() {
                 popupOnHover: true,
                 popupTemplate: function(geography, data) {
                     //console.log(geography);
-                    return '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong></div>';
+                    var id = geography.id;
+                    return '<div class="hoverinfo"><strong>' + jName[id]['name'] + '</strong></div>';
                 },
                 actionOnClick: true,
                 clickAction: function(data) {
@@ -326,6 +347,7 @@ $(function() {
             fills: fillColor,
             data: color
         });
+        map.legend();
     };
 
     // var terro = [{
