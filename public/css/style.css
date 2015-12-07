@@ -7,24 +7,37 @@
 
 body {
   font-family: 'Lucida Grande','Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+  background-color: rgba(113, 135, 164, 0.65098);
 }
 
 
 
 section.world {
-    margin-top: 0px;
+    margin-top: 20px;
     margin-bottom: 0px;
+    margin-left: 20px;
     width: 100%;
     height: 620px;
     background-color: rgba(189, 195, 198, .5);
-    padding: 30px;
-    padding-top: 50px;
-    border-radius: 10px;
-    -moz-box-shadow: inset 15px 15px 15px 15px #fff;
-    -webkit-box-shadow: inset 15px 15px 15px 15px #fff;
-    box-shadow: inset 15px 15px 15px 15px #fff;
+    background-color: #fff;
+    padding: 0 30px;
+    padding-top: 30px;
+    /* border-radius */
+    border-radius:15px;
+    -webkit-border-radius:15px;
+    -moz-border-radius:15px;
+
+    /* box-shadow */
+    box-shadow:rgba(113, 135, 164, 0.670588) 0px 0px 16px 10px inset;
+    -webkit-box-shadow:rgba(113, 135, 164, 0.670588) 0px 0px 16px 10px inset;
+    -moz-box-shadow:rgba(113, 135, 164, 0.670588) 0px 0px 16px 10px inset;
+
 }
-section.world #switch .checked {
+
+section.world:after {
+    filter: blur(10px);
+}
+section.world #switch .clicked {
     background-color: #aaa;
 }
 section.world h1 {
@@ -59,11 +72,11 @@ section.timeline h1 {
 
 .footer {
 	clear: both;
-    background-color: #fff;
 }
 .footer hr {
     border: 0;
     height: 0;
+    height: 10px;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }

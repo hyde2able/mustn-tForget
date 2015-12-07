@@ -6,18 +6,41 @@ $(function() {
         return escape(s);
     }
 
-    var Dcolor = {}     /* 死者数による色付け */
-    ,   Ncolor = {};    /* 発生件数による色付け */
+    var color = {}     /* 発生件数による色付け */
+    ,   defaultBubbles = []
+    ,   bubbles = [];   /* テロの規模  */
     /* ここで死亡者数やテロ発生件数でlevel1, 2, 3, 4, 5を相対比率で割り振る */
     var setColor = function(countries, total, callback) {
 
         countries.forEach(function(c) {
-            if(c.country_id != '-99') {
-                Dcolor[c.country_id] = { fillKey: retLevel(c.death) };
-                Ncolor[c.country_id] = { fillKey: retLevel(c.number, 'number') };
+            if( c.death > 0 ) {
+                var data = {
+                    name: c.jName,
+                    radius: 0,
+                    latitude: c.lat + 10,
+                    longitude: c.lng + 10,   
+                };
+                defaultBubbles.push(data);
+
+                var data = {
+                    name: c.jName,
+                    radius: c.death,
+                    death: c.death,
+                    country: c.name,
+                    latitude: c.lat + 10,
+                    longitude: c.lng + 10,
+                    fillKey: retLevel(c.death)
+                }
+                if(data.radius > 100) data.radius = 50;
+                bubbles.push(data);
             }
+            color[c.country_id] = { 
+                fillKey: retLevel(c.number, 'number'),
+                number: c.number 
+            };
         });
-        callback(Dcolor);
+
+        callback(color);
     };
 
     var Dlevel = [10, 20, 30, 40, 50];
@@ -26,7 +49,9 @@ $(function() {
     var retLevel = function(num, type) {
         var level = Dlevel;
         if(type == 'number') level = Nlevel;
-        if( num < level[0] ) {
+        if( num == 0) {
+            return 'defaultFill';
+        } else if ( num < level[0] ) {
             return 'level1';
         } else if ( num < level[1] ) {
             return 'level2';
@@ -43,21 +68,18 @@ $(function() {
 
     /* switch */
     $('div#switch button').click(function() {
-        var data = $(this).attr('data')
-        ,   color;
 
-        $(this).addClass('checked');
-        if( data == 'death' ) {
-            $(this).next('button').removeClass('checked');
-            color = Dcolor;
+        if ( $(this).hasClass('clicked') ) {
+            map.bubbles( defaultBubbles, { } );
+            $(this).removeClass('clicked');
         } else {
-            $(this).prev('button').removeClass('checked');
-            color = Ncolor;
+            map.bubbles( bubbles, {
+                popupTemplate: function(geo, data) {
+                    hoverinfo(geo, data);
+                }
+            });
+            $(this).addClass('clicked');
         }
-
-        console.log(color);
-        console.log(data);
-        map.updateChoropleth(color);
         return;
     });
 
@@ -81,7 +103,9 @@ $(function() {
                 country_id: datum.value.country_id,
                 death: datum.value.death,
                 number: datum.value.number,
-                jName: datum.value.jName
+                jName: datum.value.jName,
+                lat: datum.value.lat,
+                lng: datum.value.lng
             };
             Dtotal += c.death;
             Ntotal += c.number;
@@ -184,8 +208,6 @@ $(function() {
         $('[name=country]').val('');
         $('#reg_link').val('');
         $('#reg_date').val('');
-
-        alert('登録しました');
         e.preventDefault();
     });
     
@@ -205,10 +227,13 @@ $(function() {
         });
         ds.push(data, function(err, datum) {
             // 成功時の処理。　追加しましたとかのメッセージでも流す？
-            console.log(datum);
+
+            alert('登録しました');
+            //console.log(datum);
         }, function(err) {
+            alert('登録できませんでした');
             // ここにエラー時の処理 
-            console.log(err);
+            //console.log(err);
         });
 
     };
@@ -303,7 +328,7 @@ $(function() {
         'level3': '#FF5E48',
         'level4': '#874140',
         'level5': '#FF0007',
-        defaultFill: '#EDDC4E'
+        'defaultFill': "#ABDDA4"
     };
 
     /* mapを作成 */
@@ -317,89 +342,44 @@ $(function() {
             geographyConfig: {
                 hideAntarctica: true,   /* 北極は載せない */
                 boderWidth: 1,
-                borderColor: 'rgba(189, 195, 198, .5)',
+                borderColor: '#fff',
                 popupOnHover: true,
                 popupTemplate: function(geography, data) {
                     //console.log(geography);
                     var id = geography.id;
-                    return '<div class="hoverinfo"><strong>' + jName[id]['name'] + '</strong></div>';
+                    return '<div class="hoverinfo text-center"><strong>' + jName[id]['name'] + '</strong><br>' + data.number + '件</div>';
                 },
                 actionOnClick: true,
                 clickAction: function(data) {
                     getHistory(data);
-                },
-                highlightOnHover: true, /* ホバー時にエフェクト */
-                highlightFillColor: '#FC8D59',
-                highlightBorderColor: 'rgba(250, 15, 160, 0.2)',
-                highlightBorderWidth: 2
+                }
             },
             bubblesConfig: {
                 popupOnHover: true,
-                radius: null,
-                popupTemplate: function(geography, data) {
-                    return '<div class="hoverinfo"><strong>' + data.name + '</strong></div>';
-                },
+                actionOnClick: true,
                 clickAction: function(data) {
                     getHistory(data);
-                },
-                actionOnClick: true,
+                }
             },
             fills: fillColor,
             data: color
         });
+
         map.legend();
+
+
+
     };
 
-    // var terro = [{
-    //     name: 'Joe 4',
-    //     radius: 25,
-    //     yield: 400,
-    //     country: 'USSR',
-    //     fillKey: 'RUS',
-    //     significance: 'First fusion weapon test by the USSR (not "staged")',
-    //     date: '1953-08-12',
-    //     latitude: 50.07,
-    //     longitude: 78.43
-    // },{
-    //     name: 'RDS-37',
-    //     radius: 40,
-    //     yield: 1600,
-    //     country: 'USSR',
-    //     fillKey: 'RUS',
-    //     significance: 'First "staged" thermonuclear weapon test by the USSR (deployable)',
-    //     date: '1955-11-22',
-    //     latitude: 50.07,
-    //     longitude: 78.43
-    // },{
-    //     name: 'Tsar Bomba',
-    //     radius: 75,
-    //     yield: 50000,
-    //     country: 'USSR',
-    //     fillKey: 'RUS',
-    //     significance: 'Largest thermonuclear weapon ever tested—scaled down from its initial 100 Mt design by 50%',
-    //     date: '1961-10-31',
-    //     latitude: 73.482,
-    //     longitude: 54.5854
-    // }
-    // ];
+
+
 
     var hoverinfo = function(geo, data) {
-        var hover = '<div class="hoverinfo">' + data.name;
-        hover += '<br/>Payload: ' + data.yield + ' kilotons';
-        hover += '<br/>Country: ' + data.country + '';
-        hover += '<br/>Date: ' + data.date + '';
+        var hover = '<div  class="hoverinfo">' + data.name;
+        hover += '<br>' + data.death + '人以上がテロの犠牲になっています。';
         hover += '</div>';
         return hover;
     };
-
-    // map.bubbles(terro, {
-    //     popupTemplate: function(geo, data) {
-    //         return hoverinfo(geo, data);
-    //     },
-    // });
-
-
-
 
 
 });
