@@ -40,7 +40,7 @@ $(function() {
 
                 var data = {
                     name: c.jName,
-                    radius: c.death,
+                    radius: c.death / 10,
                     death: c.death,
                     country: c.name,
                     latitude: c.lat + 5,
@@ -48,7 +48,7 @@ $(function() {
                     id: c.country_id,
                     fillKey: retLevel(c.death)
                 }
-                if(data.radius > 100) data.radius = 100;
+                //if(data.radius > 100) data.radius = 100;
                 bubbles.push(data);
             }
             color[c.country_id] = { 
@@ -60,8 +60,8 @@ $(function() {
         callback(color);
     };
 
-    var Dlevel = [10, 20, 30, 40, 50];
-    var Nlevel = [1, 2, 3, 4, 5];
+    var Dlevel = [50, 100, 200, 300, 400];
+    var Nlevel = [2, 4, 6, 8, 10];
     /* レベルを返す */
     var retLevel = function(num, type) {
         var level = Dlevel;
