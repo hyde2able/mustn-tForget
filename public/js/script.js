@@ -40,11 +40,11 @@ $(function() {
 
                 var data = {
                     name: c.jName,
-                    radius: c.death / 10,
+                    radius: c.death / 5,
                     death: c.death,
                     country: c.name,
-                    latitude: c.lat + 5,
-                    longitude: c.lng + 5,
+                    latitude: c.lat + 3,
+                    longitude: c.lng + 3,
                     id: c.country_id,
                     fillKey: retLevel(c.death)
                 }
