@@ -102,3 +102,28 @@ ul.timeline .event:after {
   content: "";
   top: 5px;
 }
+
+ul.timeline a {
+  position: relative;
+  color: #F55050;
+  text-decoration: none;
+  transition: .3s; }
+  ul.timeline a:after {
+    content: "リンク先：" attr(href);
+    position: absolute;
+    top: -3em;
+    left: -10px;
+    margin: 0 auto;
+    padding: 4px 6px;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    font-family: Verdana,sans-serif;
+    white-space: nowrap;
+    transition: .3s;
+    transform: scaleY(0); }
+  ul.timeline a:hover {
+    color: #289DCC; }
+    ul.timeline a:hover:after {
+      transform: scale(1); }

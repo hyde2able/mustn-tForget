@@ -1,0 +1,224 @@
+    <!-- モーダルフォーム -->
+    <div class="modal" id="form" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true" data-show="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center" style="padding: 0; margin-top: -10px;">
+                        <!-- メインのフォーム -->
+                        <div class="login-form-1">
+                            <form id="register-form" class="text-left" method="post">
+                                <div class="login-form-main-message"></div>
+                                <div class="main-login-form">
+                                    <div class="login-group">
+                                        <div class="form-group">
+                                            <label for="reg_date">起きてしまった日付<span class="required">*</span></label>
+                                            <input type="date" class="form-control" id="reg_date" name="reg_date">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="reg_country">起きてしまった国<span class="required">*</span></label>
+                                            <select name="country" size="4" id="country" class="form-control chosen-select" data-size="3">
+                                                <option value="0" selected>国を選択してください</option>
+                                                <option value="Iceland" data-id="ihsbrcf9g3Rufmi">アイスランド</option>
+                                                <option value="Ireland" data-id="ihsbrcf3g3Ruyaz">アイルランド</option>
+                                                <option value="Azerbaijan" data-id="ihsbrccv00003y5">アゼルバイジャン</option>
+                                                <option value="Afghanistan" data-id="ihsbrccd0000g57">アフガニスタン</option>
+                                                <option value="United States of America" data-id="ihsbrcl3g3Ruvfu">アメリカ合衆国</option>
+                                                <option value="United Arab Emirates" data-id="ihsbrccm0000tb4">アラブ首長国連邦</option>
+                                                <option value="Algeria" data-id="ihsbrceg0000rpk">アルジェリア</option>
+                                                <option value="Argentina" data-id="ihsbrccn0000pxu">アルゼンチン</option>
+                                                <option value="Albania" data-id="ihsbrccl0000zzh">アルバニア</option>
+                                                <option value="Armenia" data-id="ihsbrcco0000i04">アルメニア</option>
+                                                <option value="Angola" data-id="ihsbrccj0000d9k">アンゴラ</option>
+                                                <option value="Yemen" data-id="ihsbrcljg3Ru6sh">イエメン</option>
+                                                <option value="United Kingdom" data-id="ihsbrcey0000rt6">イギリス</option>
+                                                <option value="Israel" data-id="ihsbrcfbg3Rugws">イスラエル</option>
+                                                <option value="Italy" data-id="ihsbrcfcg3Rukvb">イタリア</option>
+                                                <option value="Iraq" data-id="ihsbrcf7g3Rukkd">イラク</option>
+                                                <option value="Iran" data-id="ihsbrcf4g3Rudku">イラン</option>
+                                                <option value="India" data-id="ihsbrcf2g3Ruq83">インド</option>
+                                                <option value="Indonesia" data-id="ihsbrcezg3Ru6i4">インドネシア</option>
+                                                <option value="Uganda" data-id="ihsbrckxg3Ruoeq">ウガンダ</option>
+                                                <option value="Ukraine" data-id="ihsbrckyg3Ruv71">ウクライナ</option>
+                                                <option value="Uzbekistan" data-id="ihsbrcl5g3Rux9j">ウズベキスタン</option>
+                                                <option value="Uruguay" data-id="ihsbrcl1g3Rul00">ウルグアイ</option>
+                                                <option value="Ecuador" data-id="ihsbrceh0000dcf">エクアドル</option>
+                                                <option value="Egypt" data-id="ihsbrcej0000md8">エジプト</option>
+                                                <option value="Estonia" data-id="ihsbrcen00009xp">エストニア</option>
+                                                <option value="Ethiopia" data-id="ihsbrceo0000ws4">エチオピア</option>
+                                                <option value="Eritrea" data-id="ihsbrcek0000xym">エリトリア</option>
+                                                <option value="El Salvador" data-id="ihsbrcizg3Ruato">エルサルバドル</option>
+                                                <option value="Oman" data-id="ihsbrchog3Rulzx">オマーン</option>
+                                                <option value="Netherlands" data-id="ihsbrchfg3Rup09">オランダ</option>
+                                                <option value="Australia" data-id="ihsbrcct0000o2i">オーストラリア</option>
+                                                <option value="Austria" data-id="ihsbrccu00008vr">オーストリア</option>
+                                                <option value="Kazakhstan" data-id="ihsbrcflg3Ruaau">カザフスタン</option>
+                                                <option value="Qatar" data-id="ihsbrcifg3Ruy2v">カタール</option>
+                                                <option value="Canada" data-id="ihsbrcdl0000o5u">カナダ</option>
+                                                <option value="Cameroon" data-id="ihsbrcdw0000jzm">カメルーン</option>
+                                                <option value="Cambodia" data-id="ihsbrcfsg3Ru03x">カンボジア</option>
+                                                <option value="Guyana" data-id="ihsbrcerg3Rucym">ガイアナ</option>
+                                                <option value="Gabon" data-id="ihsbrcex0000ysd">ガボン</option>
+                                                <option value="Gambia" data-id="ihsbrcebg3Rubrn">ガンビア</option>
+                                                <option value="Ghana" data-id="ihsbrcbvg3Rumko">ガーナ</option>
+                                                <option value="Cyprus" data-id="ihsbrce50000duz">キプロス</option>
+                                                <option value="Cuba" data-id="ihsbrce20000glc">キューバ</option>
+                                                <option value="Kyrgyzstan" data-id="ihsbrcfng3Rut93">キルギス</option>
+                                                <option value="Guinea" data-id="ihsbrceag3Ruxs6">ギニア</option>
+                                                <option value="Guinea Bissau" data-id="ihsbrcedg3Ruwll">ギニアビサウ</option>
+                                                <option value="Greece" data-id="ihsbrcekg3Ru99k">ギリシャ</option>
+                                                <option value="Kuwait" data-id="ihsbrcfxg3Ruto2">クウェート</option>
+                                                <option value="Croatia" data-id="ihsbrceug3Rucvz">クロアチア</option>
+                                                <option value="Guatemala" data-id="ihsbrcepg3Rufs3">グアテマラ</option>
+                                                <option value="Greenland" data-id="ihsbrceng3Ru5co">グリーンランド</option>
+                                                <option value="Georgia" data-id="ihsbrcf00000tz7">グルジア</option>
+                                                <option value="Kenya" data-id="ihsbrcfmg3Ru8vu">ケニア</option>
+                                                <option value="Costa Rica" data-id="ihsbrce10000tkv">コスタリカ</option>
+                                                <option value="Colombia" data-id="ihsbrce00000k2d">コロンビア</option>
+                                                <option value="Republic of the Congo" data-id="ihsbrcdz0000dru">コンゴ共和国</option>
+                                                <option value="Democratic Republic of the Congo" data-id="ihsbrcdy0000yk8">コンゴ民主共和國</option>
+                                                <option value="Ivory Coast" data-id="ihsbrcdv0000vbc">コートジボワール</option>
+                                                <option value="Saudi Arabia" data-id="ihsbrciog3Rukl9">サウジアラビア</option>
+                                                <option value="Zambia" data-id="ihsbrclng3Ru3cq">ザンビア</option>
+                                                <option value="Sierra Leone" data-id="ihsbrciwg3Ruxbh">シエラレオネ</option>
+                                                <option value="Syria" data-id="ihsbrck3g3Ru8jk">シリア</option>
+                                                <option value="Djibouti" data-id="ihsbrcea0000a6b">ジブチ</option>
+                                                <option value="Jamaica" data-id="ihsbrcffg3Ru25c">ジャマイカ</option>
+                                                <option value="Zimbabwe" data-id="ihsbrclpg3Rupfh">ジンバブエ</option>
+                                                <option value="Switzerland" data-id="ihsbrcdm0000aib">スイス</option>
+                                                <option value="Sweden" data-id="ihsbrcjrg3Rugqh">スウェーデン</option>
+                                                <option value="Spain" data-id="ihsbrcem0000r8r">スペイン</option>
+                                                <option value="Suriname" data-id="ihsbrcjfg3Ruvuh">スリナム</option>
+                                                <option value="Sri Lanka" data-id="ihsbrcg6g3Ruqou">スリランカ</option>
+                                                <option value="Slovakia" data-id="ihsbrcjig3Ru34t">スロバキア</option>
+                                                <option value="Slovenia" data-id="ihsbrcjqg3Ruod3">スロベニア</option>
+                                                <option value="Swaziland" data-id="ihsbrcjxg3Rufhv">スワジランド</option>
+                                                <option value="Sudan" data-id="ihsbrcipg3Ru9zg">スーダン</option>
+                                                <option value="Equatorial Guinea" data-id="ihsbrcejg3Ruj5d">赤道ギニア</option>
+                                                <option value="Senegal" data-id="ihsbrciug3Ruenq">セネガル</option>
+                                                <option value="Republic of Serbia" data-id="ihsbrcj3g3Ruuzi">セルビア</option>
+                                                <option value="Somalia" data-id="ihsbrcj2g3Ru1d7">ソマリア</option>
+                                                <option value="Solomon Islands" data-id="ihsbrcivg3Rucna">ソロモン諸島</option>
+                                                <option value="Thailand" data-id="ihsbrckgg3Rupvl">タイ</option>
+                                                <option value="Taiwan" data-id="ihsbrcktg3Rut31">台湾</option>
+                                                <option value="South Korea" data-id="ihsbrcftg3Run6n">大韓民国</option>
+                                                <option value="Tajikistan" data-id="ihsbrckjg3Rutfg">タジキスタン</option>
+                                                <option value="United Republic of Tanzania" data-id="ihsbrckwg3Rupjc">タンザニア</option>
+                                                <option value="Czech Republic" data-id="ihsbrce60000j5z">チェコ</option>
+                                                <option value="Chad" data-id="ihsbrck4g3Rulk9">チャド</option>
+                                                <option value="Central African Republic" data-id="ihsbrcdk0000xec">中央アフリカ</option>
+                                                <option value="China" data-id="ihsbrcdq00000tm">中華人民共和国</option>
+                                                <option value="Tunisia" data-id="ihsbrckqg3Rufrh">チュニジア</option>
+                                                <option value="North Korea" data-id="ihsbrci5g3Ruwe1">朝鮮民主主義人民共和国</option>
+                                                <option value="Chile" data-id="ihsbrcdn0000k6n">チリ</option>
+                                                <option value="Denmark" data-id="ihsbrceb00006jf">デンマーク</option>
+                                                <option value="Trinidad and Tobago" data-id="ihsbrckpg3Rutf2">トリニダード・トバゴ</option>
+                                                <option value="Turkmenistan" data-id="ihsbrckkg3Ru3dj">トルクメニスタン</option>
+                                                <option value="Turkey" data-id="ihsbrcksg3Ruqf2">トルコ</option>
+                                                <option value="Togo" data-id="ihsbrckfg3Rumog">トーゴ</option>
+                                                <option value="Germany" data-id="ihsbrce90000byy">ドイツ</option>
+                                                <option value="Dominican Republic" data-id="ihsbrcee00004h5">ドミニカ共和国</option>
+                                                <option value="Nigeria" data-id="ihsbrchbg3Rumsu">ナイジェリア</option>
+                                                <option value="Namibia" data-id="ihsbrch5g3Ru9ll">ナミビア</option>
+                                                <option value="French Southern and Antarctic Lands" data-id="ihsbrccr0000077">南方・南極地域</option>
+                                                <option value="Antarctica" data-id="ihsbrccp0000y7e">南極</option>
+                                                <option value="Nicaragua" data-id="ihsbrchdg3Ruml4">ニカラグア</option>
+                                                <option value="Western Sahara" data-id="ihsbrcing3Ruvxi">西サハラ</option>
+                                                <option value="Niger" data-id="ihsbrch9g3Ru7v3">ニジェール</option>
+                                                <option value="Japan" data-id="ihsbrcfjg3Ruwze">日本</option>
+                                                <option value="New Caledonia" data-id="ihsbrch6g3Ru037">ニューカレドニア</option>
+                                                <option value="New Zealand" data-id="ihsbrchlg3Rud45">ニュージーランド</option>
+                                                <option value="Nepal" data-id="ihsbrchjg3Rucro">ネパール</option>
+                                                <option value="Norway" data-id="ihsbrchgg3Rusiv">ノルウェー</option>
+                                                <option value="Haiti" data-id="ihsbrcevg3Ruknr">ハイチ</option>
+                                                <option value="Hungary" data-id="ihsbrceyg3Ruk2o">ハンガリー</option>
+                                                <option value="Vanuatu" data-id="ihsbrcldg3Ru7gg">バヌアツ</option>
+                                                <option value="The Bahamas" data-id="ihsbrcd60000pwl">バハマ</option>
+                                                <option value="Bangladesh" data-id="ihsbrcd20000hb2">バングラデシュ</option>
+                                                <option value="Pakistan" data-id="ihsbrchpg3Rumkf">パキスタン</option>
+                                                <option value="Panama" data-id="ihsbrchqg3Ruure">パナマ</option>
+                                                <option value="Papua New Guinea" data-id="ihsbrchzg3Rul5h">パプアニューギニア</option>
+                                                <option value="Paraguay" data-id="ihsbrci8g3Rumcx">パラグアイ</option>
+                                                <option value="East Timor" data-id="ihsbrckog3Ruj6g">東ティモール</option>
+                                                <option value="Fiji" data-id="ihsbrces0000r0r">フィジー</option>
+                                                <option value="Philippines" data-id="ihsbrchxg3Ruge3">フィリピン</option>
+                                                <option value="Finland" data-id="ihsbrceq00003w0">フィンランド</option>
+                                                <option value="Falkland Islands" data-id="ihsbrcet0000uzq">フォークランド諸島</option>
+                                                <option value="France" data-id="ihsbrcev0000hu2">フランス</option>
+                                                <option value="French Guiana" data-id="ihsbrcew00000go">フランス領ギアナ</option>
+                                                <option value="Brazil" data-id="ihsbrcdc0000t5w">ブラジル</option>
+                                                <option value="Bulgaria" data-id="ihsbrcd40000no9">ブルガリア</option>
+                                                <option value="Burkina Faso" data-id="ihsbrcd00000she">ブルキナファソ</option>
+                                                <option value="Brunei" data-id="ihsbrcdd0000bpf">ブルネイ</option>
+                                                <option value="Burundi" data-id="ihsbrccx0000eu0">ブルンジ</option>
+                                                <option value="Bhutan" data-id="ihsbrcdg0000v03">ブータン</option>
+                                                <option value="Puerto Rico" data-id="ihsbrci4g3Rujpf">プエルトリコ</option>
+                                                <option value="Vietnam" data-id="ihsbrcl9g3Ruxnk">ベトナム</option>
+                                                <option value="Benin" data-id="ihsbrccz0000mdq">ベナン</option>
+                                                <option value="Venezuela" data-id="ihsbrcl7g3Rus6i">ベネズエラ</option>
+                                                <option value="Belarus" data-id="ihsbrcd80000sxi">ベラルーシ</option>
+                                                <option value="Belize" data-id="ihsbrcd90000kc7">ベリーズ</option>
+                                                <option value="Belgium" data-id="ihsbrccy0000qil">ベルギー</option>
+                                                <option value="Peru" data-id="ihsbrchvg3Rumna">ペルー</option>
+                                                <option value="Honduras" data-id="ihsbrcetg3Rue76">ホンジュラス</option>
+                                                <option value="Bosnia and Herzegovina" data-id="ihsbrcd70000tn5">ボスニア・ヘルツェゴビナ</option>
+                                                <option value="Botswana" data-id="ihsbrcdi00009sd">ボツワナ</option>
+                                                <option value="Bolivia" data-id="ihsbrcdb0000o2d">ボリビア</option>
+                                                <option value="Portugal" data-id="ihsbrci6g3Rualx">ポルトガル</option>
+                                                <option value="Poland" data-id="ihsbrci0g3Ru1tn">ポーランド</option>
+                                                <option value="Macedonia" data-id="ihsbrcgng3Rusmu">マケドニア</option>
+                                                <option value="Madagascar" data-id="ihsbrcgig3Rumsd">マダガスカル</option>
+                                                <option value="Malawi" data-id="ihsbrch1g3Ru6xp">マラウイ</option>
+                                                <option value="Mali" data-id="ihsbrcgpg3Rurk1">マリ</option>
+                                                <option value="Malaysia" data-id="ihsbrch4g3Ru214">マレーシア</option>
+                                                <option value="South Africa" data-id="ihsbrcllg3Ruv92">南アフリカ</option>
+                                                <option value="South Sudan" data-id="ihsbrcisg3Ru8w7">南スーダン</option>
+                                                <option value="Myanmar" data-id="ihsbrcgqg3Ruq3e">ミャンマー</option>
+                                                <option value="Mexico" data-id="ihsbrcglg3Ru19m">メキシコ</option>
+                                                <option value="Mozambique" data-id="ihsbrcgwg3Ru6t6">モザンビーク</option>
+                                                <option value="Moldova" data-id="ihsbrcghg3Ru9qa">モルドバ</option>
+                                                <option value="Morocco" data-id="ihsbrcggg3Ru7j7">モロッコ</option>
+                                                <option value="Mongolia" data-id="ihsbrcgsg3Ru60q">モンゴル</option>
+                                                <option value="Montenegro" data-id="ihsbrcgrg3Ru9ak">モンテネグロ</option>
+                                                <option value="Mauritania" data-id="ihsbrch0g3Ruvnj">モーリタニア</option>
+                                                <option value="Jordan" data-id="ihsbrcfhg3Ruxp6">ヨルダン</option>
+                                                <option value="West Bank" data-id="ihsbrcleg3Ruai2">ヨルダン川西岸地区</option>
+                                                <option value="Laos" data-id="ihsbrcfzg3Rumiz">ラオス</option>
+                                                <option value="Latvia" data-id="ihsbrcgbg3Ru2on">ラトビア</option>
+                                                <option value="Lithuania" data-id="ihsbrcg9g3Ru9yp">リトアニア</option>
+                                                <option value="Libya" data-id="ihsbrcg3g3Ru24l">リビア</option>
+                                                <option value="Liberia" data-id="ihsbrcg2g3Rugh9">リベリア</option>
+                                                <option value="Luxembourg" data-id="ihsbrcgag3Ruotd">ルクセンブルク</option>
+                                                <option value="Rwanda" data-id="ihsbrcilg3Rup6u">ルワンダ</option>
+                                                <option value="Romania" data-id="ihsbrcigg3Rucd0">ルーマニア</option>
+                                                <option value="Lesotho" data-id="ihsbrcg8g3Ruyno">レソト</option>
+                                                <option value="Lebanon" data-id="ihsbrcg1g3Rutbb">レバノン</option>
+                                                <option value="Russia" data-id="ihsbrcijg3Rusm2">ロシア</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="reg_description">概要<span class="required">*</span></label>
+                                            <textarea class="form-control" id="reg_description" name="reg_description" placeholder="起きてしまった出来事のあらまし" cols="45" row="10"></textarea>
+                                            <p class="help=block">※ 10 ~ 200字以内</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="reg_death">亡くなった人数<span class="required">*</span></label>
+                                            <input type="number" class="form-control" id="reg_death" name="reg_death" value="0">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="reg_link">参照リンク</label>
+                                            <input type="url" class="form-control" id="reg_link" name="reg_link">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="login-button"><i class="fa fa-chevron-right"></i></button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

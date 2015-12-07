@@ -234,13 +234,10 @@ $(function() {
             country.set(id, set_data);
         });
         ds.push(data, function(err, datum) {
-            // 成功時の処理。　追加しましたとかのメッセージでも流す？
-
             alert('登録しました');
             //console.log(datum);
         }, function(err) {
             alert('登録できませんでした');
-            // ここにエラー時の処理 
             //console.log(err);
         });
 
@@ -280,6 +277,7 @@ $(function() {
             /* もし悲劇がその国になかったらタイムラインに何を表示するか？ */
             if( tragedy.length == 0 ) {
                 // $('section.timeline ul').html('<p>何も起きていません</p>');
+                $('ul.timeline').html('<p>テロのない平和な世界へ</p>');
                 return;
             };
 
@@ -297,8 +295,8 @@ $(function() {
                 var date = String(t.date);
                 date = date.substr(0, 4) + '/' + date.substr(4, 2) + '/' + date.substr(6, 2);
 
-                var html = '<p>' + t.description + '</p>';
-                if( t.link ) html += '<a href="' + t.link + '" target="_blank">参考</a>';
+                var html = '<p>' + escapeHTML( t.description ) + '</p>';
+                if( t.link && isUrl(t.link) ) html += '<a href="' + t.link + '" target="_blank">参考</a>';
 
                 $li = $('<li>', {
                     html: html,
@@ -312,8 +310,6 @@ $(function() {
             });
         });
 
-
-
         ds.on('error', function(err) {
             console.log(err);
         });
@@ -323,10 +319,17 @@ $(function() {
         //console.log(country);
     };  
 
+    function escapeHTML(s) {
+        return s.replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;" )
+                .replace(/'/g, "&#39;" );
+    }
+
     /* urlか判定 */
     function isUrl(url) {
-        var reg = new RegExp("^https?:\\/\\/[\\w_\\-\\.]+[^\\.]\\.([a-z]{2,2}\\.[a-z]{2,2}|[a-z]{2,3})\\/?$");
-        return url.match(reg);
+        return url.match(/^(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$/);
     }
 
     /* マップの色を定めている */
@@ -346,7 +349,7 @@ $(function() {
             element: document.getElementById('world'),
             scope: 'world',
             projection: 'mercator',
-            height: 500,
+            height: 450,
             geographyConfig: {
                 hideAntarctica: true,   /* 北極は載せない */
                 boderWidth: 1,
