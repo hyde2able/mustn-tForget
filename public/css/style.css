@@ -34,12 +34,20 @@ section.world {
 
 }
 
-section.world:after {
-    filter: blur(10px);
+section.world #switch {
+    border-radius: 5px;
 }
-section.world #switch .clicked {
-    background-color: #aaa;
+section.world #switch .on {
 }
+section.world #switch .off {
+}
+section.world #switch .on:after {
+    content: '表示しない';
+}
+section.world #switch .off:after {
+    content: '表示する';
+}
+
 section.world h1 {
     text-align: center;
     color: white;

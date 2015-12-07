@@ -5,6 +5,12 @@ $(function() {
     var e = function(s) {
         return escape(s);
     }
+    var hoverinfo = function(geo, data) {
+        var hover = '<div  class="hoverinfo text-center"><strong>' + data.name + '</strong>';
+        hover += '<br>' + data.death + '人以上がテロの犠牲になっています。';
+        hover += '</div>';
+        return hover;
+    };
 
     var color = {}     /* 発生件数による色付け */
     ,   defaultBubbles = []
@@ -27,11 +33,12 @@ $(function() {
                     radius: c.death,
                     death: c.death,
                     country: c.name,
-                    latitude: c.lat + 10,
-                    longitude: c.lng + 10,
+                    latitude: c.lat + 5,
+                    longitude: c.lng + 5,
+                    id: c.country_id,
                     fillKey: retLevel(c.death)
                 }
-                if(data.radius > 100) data.radius = 50;
+                if(data.radius > 100) data.radius = 100;
                 bubbles.push(data);
             }
             color[c.country_id] = { 
@@ -66,19 +73,20 @@ $(function() {
         }
     }
 
-    /* switch */
+    /* 円チャートを表示するかのトグルボタン */
     $('div#switch button').click(function() {
-
-        if ( $(this).hasClass('clicked') ) {
+        if ( $(this).hasClass('on') ) {
             map.bubbles( defaultBubbles, { } );
-            $(this).removeClass('clicked');
+            $(this).removeClass('on');
+            $(this).addClass('off');
         } else {
             map.bubbles( bubbles, {
                 popupTemplate: function(geo, data) {
-                    hoverinfo(geo, data);
+                    return hoverinfo(geo, data);
                 }
             });
-            $(this).addClass('clicked');
+            $(this).removeClass('off');
+            $(this).addClass('on');
         }
         return;
     });
@@ -243,7 +251,7 @@ $(function() {
     /* 地図をクリックした時に、その国のIDを取得する。それを元にその国IDのデータストアの中身を取得する。 */
     var getHistory = function(country) {
         //console.log(country);
-        var dname = country.properties.name;
+        var dname = country.country || country.properties.name;
 
         var ds = milkcocoa.dataStore(dname).history();
         ds.size(20);
@@ -351,6 +359,7 @@ $(function() {
                 },
                 actionOnClick: true,
                 clickAction: function(data) {
+                    console.log(data);
                     getHistory(data);
                 }
             },
@@ -358,6 +367,7 @@ $(function() {
                 popupOnHover: true,
                 actionOnClick: true,
                 clickAction: function(data) {
+                    console.log(data);
                     getHistory(data);
                 }
             },
@@ -367,19 +377,11 @@ $(function() {
 
         map.legend();
 
-
-
     };
 
 
 
 
-    var hoverinfo = function(geo, data) {
-        var hover = '<div  class="hoverinfo">' + data.name;
-        hover += '<br>' + data.death + '人以上がテロの犠牲になっています。';
-        hover += '</div>';
-        return hover;
-    };
 
 
 });
