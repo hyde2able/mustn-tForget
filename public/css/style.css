@@ -26,6 +26,7 @@ body {
 }
 .btn-circle:hover {
     opacity: 0.8;
+    background-color: rgba(200, 200, 200, .5);
 }
 
 section.world {
@@ -90,8 +91,15 @@ section.timeline h1 {
 }
 
 
+#infomodal p {
+    text-indent: 1em;
+}
 
 
+.datamaps-legend {
+    position: relative;
+    bottom: 30px;
+}
 
  
 

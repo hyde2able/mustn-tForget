@@ -5,6 +5,17 @@ $(function() {
     var e = function(s) {
         return escape(s);
     }
+
+
+
+    // infoモーダル
+    $('button#info').click(function() {
+        $('#infomodal').show('fast');
+    });
+
+    var ip = $('#ip').attr('data-ip');
+    alert(ip);
+
     var hoverinfo = function(geo, data) {
         var hover = '<div  class="hoverinfo text-center"><strong>' + data.name + '</strong>';
         hover += '<br>' + data.death + '人以上がテロの犠牲になっています。';
@@ -203,6 +214,7 @@ $(function() {
             description: description.replace(/[\n\r]/g,""),
             death: death,
             country: country,
+            ip: ip,
             link: link || ''
         };
         if( !country ) return false;
@@ -234,10 +246,10 @@ $(function() {
             country.set(id, set_data);
         });
         ds.push(data, function(err, datum) {
-            alert('登録しました');
+            alert('追加しました。こういった事がない世界になりたいですね。');
             //console.log(datum);
         }, function(err) {
-            alert('登録できませんでした');
+            alert('追加できませんでした。入力項目が誤っている可能性があります。');
             //console.log(err);
         });
 
@@ -350,6 +362,7 @@ $(function() {
             scope: 'world',
             projection: 'mercator',
             height: 450,
+            responsive: true,
             geographyConfig: {
                 hideAntarctica: true,   /* 北極は載せない */
                 boderWidth: 1,
@@ -377,10 +390,18 @@ $(function() {
             fills: fillColor,
             data: color
         });
-
-        map.legend();
-
+        var agent = navigator.userAgent;
+        /* スマホとかからのアクセスの時はレジェンドは表示しない */
+        if( !(agent.search(/iPhone/) != -1 || agent.search(/iPad/) != -1 || agent.search(/iPod/) != -1 || agent.search(/Android/) != -1)) {
+            map.legend();
+        }
     };
+
+
+    //alternatively with jQuery
+    $(window).on('resize', function() {
+       map.resize();
+    });
 
 
 

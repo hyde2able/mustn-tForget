@@ -51,6 +51,23 @@ var getArticles = function(callback) {
 };
 
 
+/* 接続元のIPアドレスを取得 */  
+var getIP = function (req) {
+    if (req.headers['x-forwarded-for']) {
+        return req.headers['x-forwarded-for'];
+    }
+    if (req.connection && req.connection.remoteAddress) {
+        return req.connection.remoteAddress;
+    }
+    if (req.connection.socket && req.connection.socket.remoteAddress) {
+        return req.connection.socket.remoteAddress;
+    }
+    if (req.socket && req.socket.remoteAddress) {
+        return req.socket.remoteAddress;
+    }
+    return '0.0.0.0';
+};
+
 
 var options = {
   max: 500, //キャッシュの最大件数
@@ -61,16 +78,17 @@ var cache = LRU(options);
 app.get('/', function(req, res) {
 
     var articles = [];
+    var ip = '0.0.0.0';
+    ip = getIP(req);
 
     if( cache.has(0) ) {
-        console.log('まだなにもないよ');
         cache.forEach(function(value, key, cache) {
             articles.push(value);
         });
-        res.render('index', {articles: articles});
+        res.render('index', {articles: articles, ip: ip});
     } else {
         getArticles(function(articles) {
-            res.render( 'index', {articles: articles } );
+            res.render( 'index', {articles: articles, ip: ip } );
         });
     }
 });
