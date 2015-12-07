@@ -14,7 +14,6 @@ $(function() {
     });
 
     var ip = $('#ip').attr('data-ip');
-    alert(ip);
 
     var hoverinfo = function(geo, data) {
         var hover = '<div  class="hoverinfo text-center"><strong>' + data.name + '</strong>';
@@ -220,7 +219,6 @@ $(function() {
         if( !country ) return false;
         console.log(data);
 
-        console.log("submited");
         pushDS(country, data, id);
         /* closeをクリックしてモーダルを閉じる */
         $('.close').trigger('click');
