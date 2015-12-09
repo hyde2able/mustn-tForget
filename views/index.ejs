@@ -78,7 +78,19 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
     </script>
+    <script type="text/javascript">
+    $(function(){
+        var exp = new Date();
+        exp.setTime( exp.getTime() + 1000 * 60 * 60 * 24 * 100);    // 100日のみクッキー保存
+        if( document.cookie.indexOf('rep') < 0 ) {
+            $('#infomodal').show('normal');
+            document.cookie="rep=true;expires=" + exp;
+        }
+        $('#infomodal').show('normal');
+        document.cookie="rep=true;expires=" + exp;
+    });
 
+    </script>
 </head>
 
 
