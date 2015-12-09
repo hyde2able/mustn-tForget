@@ -78,19 +78,15 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
     </script>
-    <script type="text/javascript">
-    $(function(){
-        var exp = new Date();
-        exp.setTime( exp.getTime() + 1000 * 60 * 60 * 24 * 100);    // 100日のみクッキー保存
+    <script>
+    $(function() {
         if( document.cookie.indexOf('rep') < 0 ) {
-            $('#infomodal').show('normal');
-            document.cookie="rep=true;expires=" + exp;
+            $('#balloon').fadeIn(3000);
+            document.cookie="rep=true;";
         }
-        $('#infomodal').show('normal');
-        document.cookie="rep=true;expires=" + exp;
     });
-
     </script>
+
 </head>
 
 
@@ -110,6 +106,9 @@
                 <img src="images/logo.png" style="margin: 0 auto;">
                 <button type="button" class="btn btn-default btn-circle" id="info" data-toggle="modal" data-target="#infomodal"><b>i</b></button>
                 <%- partial('info') %>
+                <div class="balloon" style="display:none;">
+                    Mustn't Forgetとは
+                </div>
             </div>
         </div>
     </section>
