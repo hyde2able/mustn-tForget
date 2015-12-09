@@ -94,6 +94,9 @@ section.timeline h1 {
 #infomodal p {
     text-indent: 1em;
 }
+#infomodal p .red {
+  color: red;
+}
 
 
 .datamaps-legend {
