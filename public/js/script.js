@@ -48,7 +48,7 @@ $(function() {
                     id: c.country_id,
                     fillKey: retLevel(c.death)
                 }
-                //if(data.radius > 100) data.radius = 100;
+                if(data.radius > 50) data.radius /= 5;
                 bubbles.push(data);
             }
             color[c.country_id] = { 

@@ -5,6 +5,8 @@ var async = require('async');
 var milkcocoa = new MilkCocoa('uniihs82zyf.mlkcca.com');
 var ds = milkcocoa.dataStore('country').history();
 
+
+var his = milkcocoa.dataStore('strem');
 var cc = [];
 
 ds.size(200);
@@ -26,18 +28,29 @@ ds.on('data', function(data) {
 
         milkcocoa.dataStore(c.name).stream().size(100).next(function(err, dd) {
             if(dd != []){
-                console.log(c.name);
+                //console.log(c.name);
+
+
                 async.each(dd, function(d, next) {
                     c.d += parseInt(d.value.death, 10);
                     c.n += 1
-                    console.log(d.value.death);
+                    console.log(d);
+                    var x = {
+                        country: d.value.country,
+                        death: d.value.death,
+                        description: d.value.description,
+                        link: d.value.link,
+                        date: d.value.date
+                    }
+                    console.log(x);
+                    //his.push(x);
                     next();
                 }, function(err) {
-                    console.log('----------');
-                    console.log(c.d);
-                    console.log(c.n);
-                    console.log(c.name);
-                    console.log(c.id);
+                    //console.log('----------');
+                    //console.log(c.d);
+                    //console.log(c.n);
+                    //console.log(c.name);
+                    //console.log(c.id);
                     milkcocoa.dataStore('country').set(c.id, {death: c.d, number: c.n});
                 });
             }
